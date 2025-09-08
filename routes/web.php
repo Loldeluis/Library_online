@@ -7,14 +7,24 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+| Aquí registras todas tus rutas web.
 */
 
-Route::middleware(['auth'])->group(function(){
-    Route::resource('book', BookController::class);
-    Route::post('book/{book}/reserve', [BookController::class, 'reserve'])->name('book.reserve');
+// 1. Redirige la ruta raíz al índice de libros
+Route::get('/', function () {
+    return redirect()->route('book.index');
 });
+
+// 2. Agrupa las rutas que requieren autenticación
+Route::middleware(['auth'])->group(function () {
+    // CRUD completo para BookController
+    Route::resource('book', BookController::class);
+
+    // Ruta adicional para reservar un libro
+    Route::post('book/{book}/reserve', [BookController::class, 'reserve'])
+        ->name('book.reserve');
+});
+
+
+// 3) Carga aquí todas las rutas de login, register, etc., que creó Breeze
+require __DIR__.'/auth.php';
