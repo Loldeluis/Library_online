@@ -18,22 +18,32 @@ Route::get('/', function () {
 
 // 2. Agrupa las rutas que requieren autenticación
 Route::middleware(['auth'])->group(function () {
-     // Dashboard “oficial” de Breeze
+    
+    // Dashboard “oficial” de Breeze
     Route::get('/dashboard', function () {
     return view('dashboard');
     })->name('dashboard');
 
-      // Ruta para mostrar formulario de edición de perfil
-    Route::get('/profile', [ProfileController::class, 'edit'])
-    ->name('profile.edit');
-
-
-
-    // CRUD completo para BookController
+      // CRUD completo para BookController
     Route::resource('book', BookController::class);
     // Ruta adicional para reservar un libro
     Route::post('book/{book}/reserve', [BookController::class, 'reserve'])
         ->name('book.reserve');
+
+        // -- RUTAS DEL PERFIL
+      // Ruta para mostrar formulario de edición de perfil
+    Route::get('/profile', [ProfileController::class, 'edit'])
+    ->name('profile.edit');
+
+   // **Actualización de perfil** → Aquí defines `profile.update`
+    Route::patch('/profile', [ProfileController::class, 'update'])
+         ->name('profile.update');
+
+
+
+
+
+  
 });
 
 

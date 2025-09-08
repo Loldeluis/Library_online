@@ -24,19 +24,17 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(Request $request)
-    {
-              // Validación
-        $data = $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.$request->user()->id,
-        ]);
+public function update(Request $request)
+{
+    $data = $request->validate([
+        'name'  => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $request->user()->id,
+    ]);
 
-        // Actualizar usuario
-        $request->user()->update($data);
+    $request->user()->update($data);
 
-        return back()->with('success', 'Perfil actualizado exitosamente');
-    }
+    return back()->with('success', 'Perfil actualizado exitosamente');
+}
 
 
     
