@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,19 @@ Route::get('/', function () {
 
 // 2. Agrupa las rutas que requieren autenticación
 Route::middleware(['auth'])->group(function () {
+     // Dashboard “oficial” de Breeze
+    Route::get('/dashboard', function () {
+    return view('dashboard');
+    })->name('dashboard');
+
+      // Ruta para mostrar formulario de edición de perfil
+    Route::get('/profile', [ProfileController::class, 'edit'])
+    ->name('profile.edit');
+
+
+
     // CRUD completo para BookController
     Route::resource('book', BookController::class);
-
     // Ruta adicional para reservar un libro
     Route::post('book/{book}/reserve', [BookController::class, 'reserve'])
         ->name('book.reserve');
